@@ -1,0 +1,91 @@
+<main class="give-welcome">
+  <section class="give-welcome__welcome">
+    <h1 class="give-welcome__welcome__title">Bem-vindo ao Finanças para Propósitos!</h1>
+
+    <p class="give-welcome__welcome__description">
+      Transforme suas finanças em ferramentas poderosas para alcançar seus objetivos de vida. Gerencie seu dinheiro com
+      propósito e construa um futuro financeiro sólido.
+    </p>
+  </section>
+
+  <section class="give-welcome__features">
+    <h2 class="give-welcome__features__title">Recursos Principais</h2>
+
+    <mat-grid-list
+      class="give-welcome__features__list"
+      [cols]="3"
+      [rowHeight]="240"
+    >
+      <mat-grid-tile>
+        <mat-card class="give-welcome__features__list__card">
+          <mat-card-header class="give-welcome__features__list__card__header">
+            <mat-icon
+              mat-card-avatar
+              class="give-welcome__features__list__card__avatar"
+              >analytics</mat-icon
+            >
+            <mat-card-title class="give-welcome__features__list__card__title">Acompanhe seus Gastos</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="give-welcome__features__list__card__content">
+            <p>Monitore todas as suas despesas e receitas de forma organizada.</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-card class="give-welcome__features__list__card">
+          <mat-card-header class="give-welcome__features__list__card__header">
+            <mat-icon
+              mat-card-avatar
+              class="give-welcome__features__list__card__avatar"
+              >track_changes</mat-icon
+            >
+            <mat-card-title class="give-welcome__features__list__card__title">Defina Metas</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="give-welcome__features__list__card__content">
+            <p>Estabeleça objetivos financeiros claros e acompanhe seu progresso.</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <mat-card class="give-welcome__features__list__card">
+          <mat-card-header class="give-welcome__features__list__card__header">
+            <mat-icon
+              mat-card-avatar
+              class="give-welcome__features__list__card__avatar"
+              >lightbulb</mat-icon
+            >
+            <mat-card-title class="give-welcome__features__list__card__title">Educação Financeira</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content class="give-welcome__features__list__card__content">
+            <p>Aprenda dicas e estratégias para melhorar sua saúde financeira.</p>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+
+    <div class="give-welcome__features__actions">
+      <button
+        mat-button
+        type="button"
+        [color]="'primary'"
+      >
+        <mat-icon>play_arrow</mat-icon>
+        Começar Agora
+      </button>
+
+      <button
+        mat-stroked-button
+        type="button"
+        [color]="'accent'"
+      >
+        <mat-icon>info</mat-icon>
+        Saiba Mais
+      </button>
+    </div>
+  </section>
+</main>
