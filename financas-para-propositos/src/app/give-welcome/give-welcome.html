@@ -72,7 +72,9 @@
       <button
         mat-button
         type="button"
+        data-testid="get-started-button"
         [color]="'primary'"
+        (click)="onGetStarted()"
       >
         <mat-icon>play_arrow</mat-icon>
         Começar Agora
@@ -81,7 +83,9 @@
       <button
         mat-stroked-button
         type="button"
+        data-testid="learn-more-button"
         [color]="'accent'"
+        (click)="onLearnMore()"
       >
         <mat-icon>info</mat-icon>
         Saiba Mais

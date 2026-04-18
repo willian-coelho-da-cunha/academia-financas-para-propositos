@@ -22,22 +22,18 @@ describe(GiveWelcome.name, () => {
     expect(component).toBeTruthy();
   });
 
-  it.skip('should navigate to learn-more page on Learn More button click.', () => {
+  it('should navigate to learn-more page on Learn More button click.', () => {
     const router = TestBed.inject(Router);
-
-    fixture.debugElement
-      .queryAll(By.css('.give-welcome__features__actions button'))[0]
-      .triggerEventHandler('click', null);
+    vi.spyOn(router, 'navigate').mockImplementation(() => Promise.resolve(true));
+    fixture.debugElement.query(By.css('[data-testid="learn-more-button"]')).nativeElement.click();
     fixture.detectChanges();
     expect(router.navigate).toHaveBeenCalledExactlyOnceWith(['/learn-more']);
   });
 
-  it.skip('should navigate to get-started page on Get Started button click.', () => {
+  it('should navigate to get-started page on Get Started button click.', () => {
     const router = TestBed.inject(Router);
-
-    fixture.debugElement
-      .queryAll(By.css('.give-welcome__features__actions button'))[1]
-      .triggerEventHandler('click', null);
+    vi.spyOn(router, 'navigate').mockImplementation(() => Promise.resolve(true));
+    fixture.debugElement.query(By.css('[data-testid="get-started-button"]')).nativeElement.click();
     fixture.detectChanges();
     expect(router.navigate).toHaveBeenCalledExactlyOnceWith(['/get-started']);
   });
