@@ -39,6 +39,8 @@ jobs:
     name: Open or update pull request to main
     needs: build-and-test
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
