@@ -1,0 +1,86 @@
+name: CI and Pull Request
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'doc/**'
+      - 'bug/**'
+
+jobs:
+  build-and-test:
+    name: Build and Test financas-para-propositos
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: financas-para-propositos
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: financas-para-propositos/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Run unit tests
+        run: npm test -- --watch=false
+
+  open-or-update-pr:
+    name: Open or update pull request to main
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Create or update pull request
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const branchName = process.env.GITHUB_REF_NAME || context.ref.replace('refs/heads/', '');
+            const baseBranch = 'main';
+            const title = `${baseBranch} < ${branchName}`;
+            const body = `Automated pull request for branch ${branchName} into ${baseBranch}.`;
+
+            const { data: pulls } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${context.repo.owner}:${branchName}`,
+              base: baseBranch,
+            });
+
+            if (pulls.length > 0) {
+              const pull = pulls[0];
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pull.number,
+                title,
+                body,
+              });
+              core.info(`Updated existing pull request #${pull.number}`);
+            } else {
+              const pull = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                head: branchName,
+                base: baseBranch,
+                body,
+              });
+              core.info(`Created pull request #${pull.data.number}`);
+            }
