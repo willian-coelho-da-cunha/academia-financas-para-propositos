@@ -1,0 +1,46 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/typescript-node
+{
+	"name": "Node.js & TypeScript",
+
+	// Use a Docker image or Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"dockerComposeFile": "./docker-compose.yml",
+	"service": "front-end-app",
+	"runServices": [
+		"front-end-app"
+	],
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+		4200
+	],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "yarn install",
+
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Angular.ng-template",
+				"esbenp.prettier-vscode",
+				"dbaeumer.vscode-eslint"
+			]
+		}
+	},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	"remoteUser": "node",
+
+	// Passes docker security options to include when creating the dev container.
+	"securityOpt": [],
+
+	// Action to take when the user disconnects from the primary container in their editor. The default is to stop all of the compose containers.
+	"shutdownAction": "stopCompose",
+
+	// The path of the workspace folder inside the container. This is typically the target path of a volume mount in the docker-compose.yml.
+	"workspaceFolder": "/workspace"
+}
