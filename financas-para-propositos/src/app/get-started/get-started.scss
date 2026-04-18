@@ -1,0 +1,110 @@
+:host {
+  display: block;
+  height: 100vh;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+.get-started {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 1rem;
+}
+
+.get-started__card {
+  max-width: 500px;
+  width: 100%;
+  background-color: var(--mat-sys-surface-container);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px var(--mat-sys-shadow);
+}
+
+.get-started__header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.get-started__title {
+  color: var(--mat-sys-primary);
+  font-weight: 500;
+}
+
+.get-started__subtitle {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.get-started__content {
+  padding: 1rem;
+}
+
+.get-started__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.get-started__file-input-container {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 4px;
+  padding: 16px 14px;
+  background-color: var(--mat-sys-surface-container-highest);
+  transition: border-color 0.2s ease;
+}
+
+.get-started__file-input-container:focus-within {
+  border-color: var(--mat-sys-primary);
+  outline: none;
+}
+
+.get-started__file-label {
+  position: absolute;
+  top: -8px;
+  left: 14px;
+  background-color: var(--mat-sys-surface);
+  padding: 0 4px;
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant);
+  transition: color 0.2s ease;
+}
+
+.get-started__file-input-container:focus-within .get-started__file-label {
+  color: var(--mat-sys-primary);
+}
+
+.get-started__file-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--mat-sys-on-surface);
+  font-size: 16px;
+  padding: 0;
+}
+
+.get-started__file-input::file-selector-button {
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.get-started__file-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.get-started__submit-button {
+  align-self: center;
+  min-width: 120px;
+}
