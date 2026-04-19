@@ -22,9 +22,6 @@ export class FinancialPurposesRepository {
       this.financialPurposes = this.getFromStorage();
     } catch (error) {
       this.financialPurposes = [];
-      window.alert(
-        'Houve um erro ao carregar os dados do projeto. O arquivo pode estar corrompido ou em formato inválido.',
-      );
     }
     return structuredClone(this.financialPurposes);
   }

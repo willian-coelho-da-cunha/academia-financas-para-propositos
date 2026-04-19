@@ -11,5 +11,9 @@ export const routes: Routes = [
     path: 'financial-goal/:goal',
     loadComponent: () => import('./financial-purpose/financial-purpose').then((m) => m.FinancialPurpose),
   },
+  {
+    path: 'analytics-dashboards',
+    loadComponent: () => import('./analytics-dashboards/analytics-dashboards').then((m) => m.AnalyticsDashboards),
+  },
   { path: '**', redirectTo: 'welcome' },
 ];

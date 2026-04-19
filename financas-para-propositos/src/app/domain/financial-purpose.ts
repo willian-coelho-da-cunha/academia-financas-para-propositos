@@ -4,6 +4,7 @@ export interface FinancialPurpose {
   order: number;
   description: string;
   status: string;
+  amount: number;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;

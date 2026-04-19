@@ -5,46 +5,47 @@
         <mat-icon class="financial-purpose__card__header__icon">{{ isEditMode ? 'edit' : 'add_circle' }}</mat-icon>
         <div class="financial-purpose__card__header__content">
           <mat-card-title class="financial-purpose__card__header__title">
-            {{ isEditMode ? 'Edit Financial Goal' : 'Create New Financial Goal' }}
+            {{ isEditMode ? 'Editar propósito financeiro' : 'Criar um novo propósito financeiro' }}
           </mat-card-title>
           <mat-card-subtitle class="financial-purpose__card__header__subtitle">
-            {{ isEditMode ? 'Update your financial goal details' : 'Define a new financial goal' }}
+            {{ isEditMode ? 'Atualizar detalhes do propósito financeiro' : 'Definir um novo propósito financeiro' }}
           </mat-card-subtitle>
         </div>
       </mat-card-header>
 
       <mat-card-content class="financial-purpose__card__content">
         <form
+          class="financial-purpose__form"
           [formGroup]="financialForm"
           (ngSubmit)="onSubmit()"
-          class="financial-purpose__form"
         >
           <div class="financial-purpose__form__row">
             <mat-form-field
-              appearance="outline"
               class="financial-purpose__form__field"
+              [appearance]="'outline'"
             >
-              <mat-label>Goal Name</mat-label>
+              <mat-label>Nome</mat-label>
               <input
                 matInput
-                formControlName="name"
                 placeholder="e.g., Emergency Fund"
+                formControlName="name"
               />
               <mat-icon matPrefix>label</mat-icon>
-              <mat-error *ngIf="financialForm.get('name')?.hasError('required')"> Name is required </mat-error>
-              <mat-error *ngIf="financialForm.get('name')?.hasError('minlength')">
-                Name must be at least 3 characters
-              </mat-error>
-              <mat-error *ngIf="financialForm.get('name')?.hasError('maxlength')">
-                Name must not exceed 100 characters
-              </mat-error>
+
+              @if (financialForm.get('name')?.hasError('required')) {
+                <mat-error> Este campo é obrigatório. </mat-error>
+              } @else if (financialForm.get('name')?.hasError('minlength')) {
+                <mat-error> O nome deve ter 3 caractéres no mínimo. </mat-error>
+              } @else if (financialForm.get('name')?.hasError('maxlength')) {
+                <mat-error>O nome não pode exceder 100 caractéres.</mat-error>
+              }
             </mat-form-field>
 
             <mat-form-field
               appearance="outline"
               class="financial-purpose__form__field"
             >
-              <mat-label>Priority Order</mat-label>
+              <mat-label>Ordem de Prioridade</mat-label>
               <input
                 matInput
                 type="number"
@@ -52,61 +53,83 @@
                 placeholder="e.g., 1"
               />
               <mat-icon matPrefix>sort</mat-icon>
-              <mat-error *ngIf="financialForm.get('order')?.hasError('required')"> Order is required </mat-error>
-              <mat-error
-                *ngIf="financialForm.get('order')?.hasError('min') || financialForm.get('order')?.hasError('max')"
-              >
-                Order must be between 1 and 1000
-              </mat-error>
+
+              @if (financialForm.get('order')?.hasError('required')) {
+                <mat-error>Este campo é obrigatório.</mat-error>
+              } @else if (financialForm.get('order')?.hasError('min') || financialForm.get('order')?.hasError('max')) {
+                <mat-error> Ordem deve ser entre 1 e 1.000</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field
+              class="financial-purpose__form__field"
+              [appearance]="'outline'"
+            >
+              <mat-label>Valor</mat-label>
+              <input
+                matInput
+                type="number"
+                step="0.01"
+                formControlName="amount"
+                placeholder="e.g., 1000.00"
+              />
+              <mat-icon matPrefix>attach_money</mat-icon>
+
+              @if (financialForm.get('amount')?.hasError('required')) {
+                <mat-error> Este campo é obrigatório. </mat-error>
+              } @else if (financialForm.get('amount')?.hasError('min')) {
+                <mat-error> Valor deve ser maior que 0 (zero). </mat-error>
+              }
             </mat-form-field>
           </div>
 
           <mat-form-field
-            appearance="outline"
             class="financial-purpose__form__field--full"
+            [appearance]="'outline'"
           >
-            <mat-label>Description</mat-label>
+            <mat-label>Descrição</mat-label>
             <textarea
               matInput
               formControlName="description"
-              placeholder="Enter a detailed description of your financial goal"
+              placeholder="Informe uma descrição detalhada do seu propósito financeiro."
               rows="4"
             ></textarea>
             <mat-icon matPrefix>description</mat-icon>
-            <mat-error *ngIf="financialForm.get('description')?.hasError('required')">
-              Description is required
-            </mat-error>
-            <mat-error *ngIf="financialForm.get('description')?.hasError('minlength')">
-              Description must be at least 10 characters
-            </mat-error>
-            <mat-error *ngIf="financialForm.get('description')?.hasError('maxlength')">
-              Description must not exceed 500 characters
-            </mat-error>
+
+            @if (financialForm.get('description')?.hasError('required')) {
+              <mat-error> Este campo é obrigatório. </mat-error>
+            } @else if (financialForm.get('description')?.hasError('minlength')) {
+              <mat-error> Deve conter 10 caractéres no mínimo. </mat-error>
+            } @else if (financialForm.get('description')?.hasError('maxlength')) {
+              <mat-error> Deve conter 500 caractéres no máximo. </mat-error>
+            }
           </mat-form-field>
 
           <div class="financial-purpose__form__row">
             <mat-form-field
-              appearance="outline"
               class="financial-purpose__form__field"
+              [appearance]="'outline'"
             >
-              <mat-label>Status</mat-label>
+              <mat-label>Situação</mat-label>
               <mat-select formControlName="status">
-                <mat-option
-                  *ngFor="let option of statusOptions"
-                  [value]="option"
-                >
-                  {{ option }}
-                </mat-option>
+                @for (item of statusOptions; track $index) {
+                  <mat-option [value]="item">
+                    {{ item }}
+                  </mat-option>
+                }
               </mat-select>
               <mat-icon matPrefix>info</mat-icon>
-              <mat-error *ngIf="financialForm.get('status')?.hasError('required')"> Status is required </mat-error>
+
+              @if (financialForm.get('status')?.hasError('required')) {
+                <mat-error> Este campo é obrigatório. </mat-error>
+              }
             </mat-form-field>
 
             <mat-form-field
-              appearance="outline"
               class="financial-purpose__form__field"
+              [appearance]="'outline'"
             >
-              <mat-label>Last Updated</mat-label>
+              <mat-label>Última atualização</mat-label>
               <input
                 matInput
                 [matDatepicker]="updatedPicker"
@@ -118,17 +141,18 @@
                 [for]="updatedPicker"
               ></mat-datepicker-toggle>
               <mat-datepicker #updatedPicker></mat-datepicker>
-              <mat-error *ngIf="financialForm.get('updatedAt')?.hasError('required')">
-                Updated date is required
-              </mat-error>
+
+              @if (financialForm.get('updatedAt')?.hasError('required')) {
+                <mat-error> Este campo é obrigatório. </mat-error>
+              }
             </mat-form-field>
           </div>
 
           <mat-form-field
-            appearance="outline"
             class="financial-purpose__form__field--full"
+            [appearance]="'outline'"
           >
-            <mat-label>Released Date</mat-label>
+            <mat-label>Concluído em</mat-label>
             <input
               matInput
               [matDatepicker]="releasedPicker"
@@ -139,20 +163,17 @@
               [for]="releasedPicker"
             ></mat-datepicker-toggle>
             <mat-datepicker #releasedPicker></mat-datepicker>
-            <mat-error *ngIf="financialForm.get('releasedAt')?.hasError('required')">
-              Released date is required
-            </mat-error>
           </mat-form-field>
 
           <div class="financial-purpose__form__actions">
             <button
               mat-raised-button
-              color="primary"
               type="submit"
+              [color]="'primary'"
               [disabled]="!financialForm.valid"
             >
               <mat-icon>{{ isEditMode ? 'save' : 'check_circle' }}</mat-icon>
-              {{ isEditMode ? 'Update Goal' : 'Create Goal' }}
+              {{ isEditMode ? 'Atualizar' : 'Criar' }}
             </button>
             <button
               mat-stroked-button
@@ -160,7 +181,7 @@
               (click)="cancel()"
             >
               <mat-icon>close</mat-icon>
-              Cancel
+              Cancelar
             </button>
           </div>
         </form>
