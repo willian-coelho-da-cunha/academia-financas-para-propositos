@@ -1,66 +1,130 @@
 # Finanças para Propósitos
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+Uma aplicação web para gerenciamento de propósitos financeiros, desenvolvida com Angular e Angular Material. Permite aos usuários definir metas financeiras, acompanhar o progresso e visualizar análises através de dashboards interativos.
 
-## Development server
+## Funcionalidades
 
-To start a local development server, run:
+### 📋 Gerenciamento de Propósitos
+- **Upload de Dados**: Importe seus propósitos financeiros a partir de arquivos .txt
+- **Tabela Interativa**: Visualize e gerencie todos os seus propósitos em uma tabela com paginação
+- **Formulário de Metas**: Crie e edite propósitos com campos como nome, descrição, valor, status e datas
+- **Ações Rápidas**: Edite, exclua ou visualize detalhes de cada propósito diretamente na tabela
 
+### 📊 Dashboards Analíticos
+- **Gráficos Interativos**: Visualize seus dados através de gráficos de pizza e barras
+- **Métricas em Tempo Real**: Acompanhe o progresso das suas metas financeiras
+- **Análises Visuais**: Use o Google Charts para representações claras dos seus dados
+
+### 🎨 Interface Moderna
+- **Angular Material**: Design system consistente e acessível
+- **Tema Personalizado**: Utiliza tokens de cor do sistema Material Design
+- **Navegação Intuitiva**: Botões de voltar e navegação fluida entre páginas
+- **Responsividade**: Interface adaptável para diferentes dispositivos
+
+## Tecnologias Utilizadas
+
+- **Framework**: Angular 21
+- **Linguagem**: TypeScript
+- **UI Library**: Angular Material
+- **Gráficos**: Angular Google Charts
+- **Persistência**: LocalStorage (dados armazenados localmente no navegador)
+- **Build Tool**: Angular CLI
+- **Testes**: Vitest
+
+## Estrutura do Projeto
+
+```
+src/
+├── app/
+│   ├── give-welcome/          # Página de boas-vindas
+│   ├── get-started/           # Upload de arquivo .txt
+│   ├── manage-project/        # Gerenciamento de propósitos (tabela)
+│   ├── financial-purpose/     # Formulário de criação/edição
+│   ├── analytics-dashboards/  # Dashboards com gráficos
+│   ├── repositories/          # Camada de dados (localStorage)
+│   ├── domain/                # Modelos de dados
+│   └── app.routes.ts          # Configuração de rotas
+├── styles.scss                # Estilos globais
+└── main.ts                    # Ponto de entrada da aplicação
+```
+
+## Como Usar
+
+### Pré-requisitos
+- Node.js (versão 18 ou superior)
+- npm ou yarn
+
+### Instalação
+
+1. Clone o repositório:
 ```bash
-cd financas-para-propositos/
+git clone <repository-url>
+cd financas-para-propositos
+```
+
+2. Instale as dependências:
+```bash
 npm install
+```
+
+3. Inicie o servidor de desenvolvimento:
+```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+4. Abra seu navegador em `http://localhost:4200`
 
-## Code scaffolding
+### Fluxo da Aplicação
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. **Boas-vindas**: Página inicial com informações sobre o app
+2. **Começar**: Upload de arquivo .txt com dados dos propósitos
+3. **Gerenciar Propósitos**: Tabela para visualizar e gerenciar metas
+4. **Criar/Editar Meta**: Formulário para adicionar ou modificar propósitos
+5. **Dashboards**: Visualização analítica dos dados
 
-```bash
-cd financas-para-propositos/
-ng generate component component-name
-```
+## Desenvolvimento
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-cd financas-para-propositos/
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### Comandos Disponíveis
 
 ```bash
-cd financas-para-propositos/
+# Servidor de desenvolvimento
+ng serve
+
+# Build de produção
 ng build
-```
 
-This will compile your project and store the build artifacts in the `financas-para-propositos/dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-cd financas-para-propositos/
+# Executar testes
 ng test
+
+# Linting
+ng lint
+
+# Gerar novo componente
+ng generate component nome-do-componente
 ```
 
-## Running end-to-end tests
+### Arquitetura
 
-For end-to-end (e2e) testing, run:
+- **Componentes Standalone**: Cada página é um componente independente
+- **Injeção de Dependências**: Uso do novo sistema de injeção do Angular
+- **Reactive Forms**: Formulários reativos para melhor controle
+- **Repository Pattern**: Separação da lógica de dados
 
-```bash
-cd financas-para-propositos/
-ng e2e
-```
+### Persistência de Dados
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Os dados são armazenados localmente no navegador usando `localStorage`. A aplicação inclui:
+- Validação de dados na importação
+- Tratamento de erros
+- Persistência automática das alterações
 
-## Additional Resources
+## Contribuição
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
+3. Commit suas mudanças (`git commit -m 'feat: adiciona nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/nova-funcionalidade`)
+5. Abra um Pull Request
+
+## Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.

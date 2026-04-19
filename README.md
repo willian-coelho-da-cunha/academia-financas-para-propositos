@@ -1,53 +1,88 @@
 # Finanças para Propósitos
 
-Keywords: "academia".
+Um ambiente de desenvolvimento containerizado para uma aplicação Angular focada em gerenciamento de propósitos financeiros.
 
-A containerized development environment for an Angular/TypeScript frontend application focused on finance purposes.
+## Visão Geral
 
-## Overview
+Este projeto fornece um setup de desenvolvimento baseado em Docker para construir e executar uma aplicação frontend usando Angular e TypeScript. O ambiente é orquestrado usando Docker Compose e executa em um container isolado e consistente.
 
-This project provides a Docker-based development setup for building and running a frontend application using Angular and TypeScript. The environment is orchestrated using Docker Compose and runs within a consistent, isolated container.
+## Sobre a Aplicação
 
-## Tech Stack
+**Finanças para Propósitos** é uma aplicação web que ajuda usuários a gerenciar suas metas financeiras de forma organizada. Inclui funcionalidades para:
 
-- **Runtime:** Node.js (v4-24 on Debian Bullseye)
-- **Language:** TypeScript
-- **Framework:** Angular CLI
-- **Package Manager:** npm
-- **Containerization:** Docker & Docker Compose
+- 📤 Importar dados de propósitos via arquivos .txt
+- 📋 Gerenciar metas em uma tabela interativa com paginação
+- ✏️ Criar e editar propósitos financeiros
+- 📊 Visualizar análises através de dashboards com gráficos
+- 🎨 Interface moderna usando Angular Material
 
-## Project Structure
+## Stack Tecnológico
+
+- **Runtime:** Node.js (v18+ no Debian Bullseye)
+- **Linguagem:** TypeScript
+- **Framework:** Angular 21 com CLI
+- **UI Library:** Angular Material
+- **Gráficos:** Google Charts
+- **Gerenciamento de Pacotes:** npm
+- **Containerização:** Docker & Docker Compose
+- **Testes:** Vitest
+
+## Estrutura do Projeto
 
 ```
 .
-├── Dockerfile                    # Development container definition.
-├── docker-compose.yml            # Docker Compose service configuration.
-└── README.md                     # This file.
+├── Dockerfile                    # Definição do container de desenvolvimento
+├── docker-compose.yml            # Configuração do serviço Docker Compose
+├── financas-para-propositos/     # Código fonte da aplicação Angular
+│   ├── src/
+│   ├── package.json
+│   └── README.md                 # Documentação detalhada da aplicação
+└── README.md                     # Este arquivo
 ```
 
-## Requirements
+## Pré-requisitos
 
 - Docker
 - Docker Compose
 
-## Getting Started
+## Como Começar
 
-### Build and Start the Development Container
+### Construir e Iniciar o Container de Desenvolvimento
 
 ```bash
 docker-compose up -d
 ```
 
-This command will:
-1. Build the Docker image from the Dockerfile.
-2. Start the `front-end-app` service in the background.
-3. Mount the workspace directory for development.
+Este comando irá:
+1. Construir a imagem Docker a partir do Dockerfile
+2. Iniciar o serviço `front-end-app` em background
+3. Montar o diretório do workspace para desenvolvimento
 
-### Access the Container
+### Acessar o Container
 
 ```bash
 docker-compose exec front-end-app /bin/bash
 ```
+
+### Desenvolver a Aplicação
+
+Dentro do container:
+
+```bash
+cd financas-para-propositos
+npm install
+ng serve
+```
+
+A aplicação estará disponível em `http://localhost:4200`
+
+## Desenvolvimento
+
+Para mais informações sobre desenvolvimento, comandos disponíveis e arquitetura da aplicação, consulte o [README da aplicação](./financas-para-propositos/README.md).
+
+## Contribuição
+
+Contribuições são bem-vindas! Por favor, leia as diretrizes de contribuição no README da aplicação.
 
 ### Stop the Container
 
@@ -55,57 +90,57 @@ docker-compose exec front-end-app /bin/bash
 docker-compose down
 ```
 
-## Development
+## Desenvolvimento
 
-The development container includes:
-- **Node.js** with npm pre-installed.
-- **TypeScript Compiler (tsc)** globally available.
-- **Angular CLI** globally available for Angular development.
+O container de desenvolvimento inclui:
+- **Node.js** com npm pré-instalado.
+- **Compilador TypeScript (tsc)** disponível globalmente.
+- **Angular CLI** disponível globalmente para desenvolvimento Angular.
 
-### Available Commands Inside Container
+### Comandos Disponíveis Dentro do Container
 
-Once inside the container, you can run common npm and Angular commands:
+Uma vez dentro do container, você pode executar comandos comuns do npm e Angular:
 
 ```bash
-# Install dependencies
+# Instalar dependências
 npm install
 
-# Start development server
+# Iniciar servidor de desenvolvimento
 ng serve
 
-# Build for production
+# Build para produção
 ng build
 
-# Run tests
+# Executar testes
 ng test
 ```
 
-## Container Configuration
+## Configuração do Container
 
-- **Service Name:** front-end-app
-- **User:** node
-- **Working Directory:** /workspace
-- **Memory Limit:** 3GB (reservation: 512MB)
-- **CPU Limit:** 3 cores (reservation: 0.5 cores)
-- **Volume:** Current directory mapped to `/workspace` (cached mode)
-- **Restart Policy:** On failure with 5s delay (max 1 attempt)
+- **Nome do Serviço:** front-end-app
+- **Usuário:** node
+- **Diretório de Trabalho:** /workspace
+- **Limite de Memória:** 3GB (reserva: 512MB)
+- **Limite de CPU:** 3 núcleos (reserva: 0,5 núcleos)
+- **Volume:** Diretório atual mapeado para `/workspace` (modo cache)
+- **Política de Reinício:** Em caso de falha com atraso de 5s (máx. 1 tentativa)
 
-## Volume Mounting
+## Montagem de Volume
 
-The project directory is mounted as a cached volume to `/workspace` inside the container, enabling live code editing and hot-reload development workflows.
+O diretório do projeto é montado como um volume em cache para `/workspace` dentro do container, permitindo edição de código ao vivo e workflows de desenvolvimento com hot-reload.
 
-## Debugging
+## Depuração
 
-The container is designed to stay alive, allowing you to:
-- Run development servers
-- Execute build commands
-- Debug applications in real-time
-- Install additional packages as needed
+O container é projetado para permanecer ativo, permitindo que você:
+- Execute servidores de desenvolvimento
+- Execute comandos de build
+- Depure aplicações em tempo real
+- Instale pacotes adicionais conforme necessário
 
-## License
+## Licença
 
-Not specified
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
-## Contributing
+## Contribuição
 
-Please refer to the project guidelines for contribution procedures.
+Por favor, consulte as diretrizes do projeto para procedimentos de contribuição.
