@@ -1,0 +1,140 @@
+:host {
+  box-sizing: border-box;
+  display: block;
+  height: 100vh;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+.get-started {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 100%;
+  padding: 1.5rem;
+}
+
+.get-started__card {
+  width: 100%;
+  max-width: 520px;
+  background-color: var(--mat-sys-surface-container);
+  border-radius: 16px;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  border: 1px solid transparent;
+}
+
+.get-started__card--upload {
+  border-color: var(--mat-sys-primary-container);
+}
+
+.get-started__card--start-from-scratch {
+  border-color: var(--mat-sys-tertiary-container);
+}
+
+.get-started__card__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem 0.75rem;
+}
+
+.get-started__card__header__avatar {
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+}
+
+.get-started__card__header__title {
+  color: var(--mat-sys-primary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.get-started__card__header__subtitle {
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0.25rem 0 0;
+}
+
+.get-started__card__content {
+  padding: 1.5rem;
+}
+
+.get-started__card__content__form,
+.get-started__card__content__options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.get-started__card__content__form__file-input-container {
+  position: relative;
+  width: 100%;
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 10px;
+  padding: 1rem 1rem 1rem 0.75rem;
+  background-color: var(--mat-sys-surface-container-highest);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.get-started__card__content__form__file-input-container:focus-within {
+  border-color: var(--mat-sys-primary);
+  box-shadow: 0 0 0 4px rgba(3, 169, 244, 0.12);
+}
+
+.get-started__card__content__form__file-input-container__file-label {
+  position: absolute;
+  top: -9px;
+  left: 1rem;
+  background-color: var(--mat-sys-surface);
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.get-started__card__content__form__file-input-container:focus-within
+  .get-started__card__content__form__file-input-container__file-label {
+  color: var(--mat-sys-primary);
+}
+
+.get-started__card__content__form__file-input-container__file-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--mat-sys-on-surface);
+  font-size: 1rem;
+  padding: 0;
+}
+
+.get-started__card__content__form__file-input-container__file-input::file-selector-button {
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  margin-right: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.get-started__card__content__form__file-input-container__file-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.get-started__card__content__form__submit-button,
+.get-started__card__content__options__start-from-scratch-button {
+  align-self: center;
+  min-width: 150px;
+}
+
+.get-started__card__content__options__start-from-scratch-button {
+  width: auto;
+}

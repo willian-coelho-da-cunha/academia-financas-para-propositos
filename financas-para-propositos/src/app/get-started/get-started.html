@@ -1,0 +1,78 @@
+<main class="get-started">
+  <mat-card class="get-started__card get-started__card--upload">
+    <mat-card-header class="get-started__card__header">
+      <mat-icon
+        mat-card-avatar
+        class="get-started__card__header__avatar"
+        >play_arrow</mat-icon
+      >
+      <mat-card-title class="get-started__card__header__title">Continue de onde você parou</mat-card-title>
+      <mat-card-subtitle class="get-started__card__header__subtitle"
+        >Informe seu arquivo .txt para continuar</mat-card-subtitle
+      >
+    </mat-card-header>
+
+    <mat-card-content class="get-started__card__content">
+      <form
+        class="get-started__card__content__form"
+        [formGroup]="uploadForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="get-started__card__content__form__file-input-container">
+          <label class="get-started__card__content__form__file-input-container__file-label"
+            >Selecione um arquivo .txt</label
+          >
+          <input
+            class="get-started__card__content__form__file-input-container__file-input"
+            type="file"
+            accept=".txt"
+            formControlName="file"
+            data-testid="file-input"
+            (change)="onFileChange($event)"
+          />
+          <mat-icon class="get-started__card__content__form__file-input-container__file-icon">attach_file</mat-icon>
+        </div>
+
+        <button
+          mat-raised-button
+          class="get-started__card__content__form__submit-button"
+          type="submit"
+          data-testid="submit-button"
+          [color]="'primary'"
+          [disabled]="!uploadForm.valid && !enableSubmit"
+        >
+          <mat-icon>upload</mat-icon>
+          Continuar
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="get-started__card get-started__card--start-from-scratch">
+    <mat-card-header class="get-started__card__header">
+      <mat-icon
+        mat-card-avatar
+        class="get-started__card__header__avatar"
+        >new_releases</mat-icon
+      >
+      <mat-card-title class="get-started__card__header__title">Começar do zero</mat-card-title>
+      <mat-card-subtitle class="get-started__card__header__subtitle">Inicie um novo projeto do zero</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="get-started__card__content">
+      <div class="get-started__card__content__options">
+        <button
+          mat-raised-button
+          class="get-started__card__content__options__start-from-scratch-button"
+          type="button"
+          data-testid="start-from-scratch-button"
+          [color]="'primary'"
+          (click)="startFromScratch()"
+        >
+          <mat-icon>upload</mat-icon>
+          Começar do zero
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</main>
