@@ -1,9 +1,19 @@
-<div class="analytics-dashboards">
-  <mat-toolbar class="analytics-dashboards__toolbar" color="primary">
-    <button mat-icon-button (click)="goBack()" class="analytics-dashboards__toolbar__back-button">
+<main class="analytics-dashboards">
+  <mat-toolbar
+    class="analytics-dashboards__toolbar"
+    [color]="'primary'"
+  >
+    <button
+      mat-icon-button
+      class="analytics-dashboards__toolbar__back-button"
+      type="button"
+      data-testid="back-button"
+      (click)="goBack()"
+    >
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <span class="analytics-dashboards__toolbar__title">Analytics Dashboards</span>
+
+    <span class="analytics-dashboards__toolbar__title">Painéis Analíticos</span>
     <span class="spacer"></span>
     <mat-icon class="analytics-dashboards__toolbar__icon">analytics</mat-icon>
   </mat-toolbar>
@@ -12,79 +22,95 @@
     <div class="analytics-dashboards__grid">
       <mat-card class="analytics-dashboards__card">
         <mat-card-header>
-          <mat-card-title>Goals by Status</mat-card-title>
+          <mat-card-title>Propósitos por Status</mat-card-title>
         </mat-card-header>
+
         <mat-card-content>
-          <google-chart
-            *ngIf="statusChartData.length > 0"
-            [type]="ChartType.PieChart"
-            [data]="statusChartData"
-            [options]="statusChartOptions"
-            [width]="400"
-            [height]="300">
-          </google-chart>
-          <p *ngIf="statusChartData.length === 0" class="analytics-dashboards__no-data">
-            No data available. Create some financial goals first.
-          </p>
+          @if (statusChartData.length > 0) {
+            <google-chart
+              [type]="ChartType.PieChart"
+              [data]="statusChartData"
+              [options]="statusChartOptions"
+              [width]="400"
+              [height]="300"
+            >
+            </google-chart>
+          } @else {
+            <p class="analytics-dashboards__no-data">
+              Nenhum dado disponível para mostrar. Que tal criar alguns propósitos financeiros?
+            </p>
+          }
         </mat-card-content>
       </mat-card>
 
       <mat-card class="analytics-dashboards__card">
         <mat-card-header>
-          <mat-card-title>Priority Distribution</mat-card-title>
+          <mat-card-title>Distribuição por Prioridades</mat-card-title>
         </mat-card-header>
+
         <mat-card-content>
-          <google-chart
-            *ngIf="orderChartData.length > 0"
-            [type]="ChartType.ColumnChart"
-            [data]="orderChartData"
-            [options]="orderChartOptions"
-            [width]="400"
-            [height]="300">
-          </google-chart>
-          <p *ngIf="orderChartData.length === 0" class="analytics-dashboards__no-data">
-            No data available. Create some financial goals first.
-          </p>
+          @if (orderChartData.length > 0) {
+            <google-chart
+              [type]="ChartType.ColumnChart"
+              [data]="orderChartData"
+              [options]="orderChartOptions"
+              [width]="400"
+              [height]="300"
+            >
+            </google-chart>
+          } @else {
+            <p class="analytics-dashboards__no-data">
+              Nenhum dado disponível para mostrar. Que tal criar alguns propósitos financeiros?
+            </p>
+          }
         </mat-card-content>
       </mat-card>
 
       <mat-card class="analytics-dashboards__card analytics-dashboards__card--full">
         <mat-card-header>
-          <mat-card-title>Goals Timeline</mat-card-title>
+          <mat-card-title>Linha do Tempo</mat-card-title>
         </mat-card-header>
+
         <mat-card-content>
-          <google-chart
-            *ngIf="timelineChartData.length > 0"
-            [type]="ChartType.Timeline"
-            [data]="timelineChartData"
-            [options]="timelineChartOptions"
-            [width]="800"
-            [height]="300">
-          </google-chart>
-          <p *ngIf="timelineChartData.length === 0" class="analytics-dashboards__no-data">
-            No data available. Create some financial goals first.
-          </p>
+          @if (timelineChartData.length > 0) {
+            <google-chart
+              [type]="ChartType.Timeline"
+              [data]="timelineChartData"
+              [options]="timelineChartOptions"
+              [width]="800"
+              [height]="300"
+            >
+            </google-chart>
+          } @else {
+            <p class="analytics-dashboards__no-data">
+              Nenhum dado disponível para mostrar. Que tal criar alguns propósitos financeiros?
+            </p>
+          }
         </mat-card-content>
       </mat-card>
 
       <mat-card class="analytics-dashboards__card">
         <mat-card-header>
-          <mat-card-title>Total Amount by Status</mat-card-title>
+          <mat-card-title>Valor Total por Status</mat-card-title>
         </mat-card-header>
+
         <mat-card-content>
-          <google-chart
-            *ngIf="amountChartData.length > 0"
-            [type]="ChartType.ColumnChart"
-            [data]="amountChartData"
-            [options]="amountChartOptions"
-            [width]="400"
-            [height]="300">
-          </google-chart>
-          <p *ngIf="amountChartData.length === 0" class="analytics-dashboards__no-data">
-            No data available. Create some financial goals first.
-          </p>
+          @if (amountChartData.length > 0) {
+            <google-chart
+              [type]="ChartType.ColumnChart"
+              [data]="amountChartData"
+              [options]="amountChartOptions"
+              [width]="400"
+              [height]="300"
+            >
+            </google-chart>
+          } @else {
+            <p class="analytics-dashboards__no-data">
+              Nenhum dado disponível para mostrar. Que tal criar alguns propósitos financeiros?
+            </p>
+          }
         </mat-card-content>
       </mat-card>
     </div>
   </div>
-</div>
+</main>

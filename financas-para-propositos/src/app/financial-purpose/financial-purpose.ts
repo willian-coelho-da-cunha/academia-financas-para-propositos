@@ -46,7 +46,7 @@ export class FinancialPurpose implements OnInit, OnDestroy {
     amount: ['', [Validators.required, Validators.min(0.01)]],
     status: ['Ativo', Validators.required],
     updatedAt: [new Date(), Validators.required],
-    releasedAt: ['', Validators.required],
+    releasedAt: [''],
     createdAt: [''],
   });
 

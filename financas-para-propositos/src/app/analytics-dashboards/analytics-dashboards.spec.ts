@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AnalyticsDashboards } from './analytics-dashboards';
 
-describe('AnalyticsDashboards', () => {
+describe(AnalyticsDashboards.name, () => {
   let component: AnalyticsDashboards;
   let fixture: ComponentFixture<AnalyticsDashboards>;
 
@@ -13,10 +12,11 @@ describe('AnalyticsDashboards', () => {
 
     fixture = TestBed.createComponent(AnalyticsDashboards);
     component = fixture.componentInstance;
+    fixture.detectChanges();
     await fixture.whenStable();
   });
 
-  it('should create', () => {
+  it('should create analytics dashboards page.', () => {
     expect(component).toBeTruthy();
   });
 });
