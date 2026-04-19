@@ -1,6 +1,7 @@
 {
   "name": "financas-para-propositos",
   "version": "0.1.0",
+  "description": "Aplicação web para gerenciamento de propósitos financeiros com Angular e Material Design",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
