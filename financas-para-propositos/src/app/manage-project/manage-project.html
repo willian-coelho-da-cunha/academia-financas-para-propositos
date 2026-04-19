@@ -1,70 +1,170 @@
-<div class="manage-project">
-  <mat-toolbar class="manage-project__toolbar" color="primary">
+<main class="manage-project">
+  <mat-toolbar
+    class="manage-project__toolbar"
+    [color]="'primary'"
+  >
     <span class="manage-project__toolbar__title">Manage Project</span>
+
     <span class="spacer"></span>
-    <button mat-raised-button color="accent" (click)="downloadData()">
+
+    <button
+      mat-raised-button
+      class="manage-project__toolbar__button"
+      type="button"
+      data-testid="download-button"
+      [color]="'accent'"
+      [disabled]="downloadDataDisabled"
+      (click)="downloadData()"
+    >
       <mat-icon>download</mat-icon>
       Download
     </button>
-    <button mat-raised-button color="accent" (click)="addNew()">
+
+    <button
+      mat-raised-button
+      class="manage-project__toolbar__button"
+      type="button"
+      data-testid="add-new-button"
+      [color]="'accent'"
+      (click)="add()"
+    >
       <mat-icon>add</mat-icon>
-      Add New
+      Adicionar Novo
     </button>
   </mat-toolbar>
 
   <mat-card class="manage-project__card">
     <mat-card-content class="manage-project__card__content">
-      <table mat-table [dataSource]="paginatedData" class="manage-project__table">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>ID</th>
-          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+      <table
+        mat-table
+        class="manage-project__table"
+        [dataSource]="paginatedData"
+      >
+        <ng-container matColumnDef="order">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+          >
+            Ordem
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+          >
+            {{ element.order }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+          >
+            Nome
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+          >
+            {{ element.name }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>Description</th>
-          <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+          >
+            Descrição
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+          >
+            {{ element.description }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+          >
+            Situação
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+          >
+            {{ element.status }}
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="createdAt">
-          <th mat-header-cell *matHeaderCellDef>Created At</th>
-          <td mat-cell *matCellDef="let element">{{ element.createdAt | date:'short' }}</td>
+        <ng-container matColumnDef="releasedAt">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+          >
+            Realizado em
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+          >
+            {{ element.releasedAt | date: 'short' }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="edit(element)" color="primary">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+          >
+            Ações
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+          >
+            <button
+              mat-icon-button
+              type="button"
+              [color]="'primary'"
+              (click)="edit(element)"
+            >
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="delete(element)" color="warn">
+            <button
+              mat-icon-button
+              type="button"
+              (click)="delete(element)"
+              [color]="'warn'"
+            >
               <mat-icon>delete</mat-icon>
             </button>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+        ></tr>
       </table>
 
       <mat-paginator
+        showFirstLastButtons
+        class="manage-project__paginator"
         [pageSizeOptions]="pageSizeOptions"
         [pageSize]="pageSize"
         [pageIndex]="pageIndex"
         [length]="totalItems"
         (page)="onPageChange($event)"
-        showFirstLastButtons
-        class="manage-project__paginator">
+      >
       </mat-paginator>
     </mat-card-content>
   </mat-card>
-</div>
+</main>
