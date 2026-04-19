@@ -1,0 +1,70 @@
+<div class="manage-project">
+  <mat-toolbar class="manage-project__toolbar" color="primary">
+    <span class="manage-project__toolbar__title">Manage Project</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="downloadData()">
+      <mat-icon>download</mat-icon>
+      Download
+    </button>
+    <button mat-raised-button color="accent" (click)="addNew()">
+      <mat-icon>add</mat-icon>
+      Add New
+    </button>
+  </mat-toolbar>
+
+  <mat-card class="manage-project__card">
+    <mat-card-content class="manage-project__card__content">
+      <table mat-table [dataSource]="paginatedData" class="manage-project__table">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>ID</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef>Created At</th>
+          <td mat-cell *matCellDef="let element">{{ element.createdAt | date:'short' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="edit(element)" color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="delete(element)" color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="pageSizeOptions"
+        [pageSize]="pageSize"
+        [pageIndex]="pageIndex"
+        [length]="totalItems"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+        class="manage-project__paginator">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
