@@ -3,7 +3,16 @@
     class="manage-project__toolbar"
     [color]="'primary'"
   >
-    <span class="manage-project__toolbar__title">Manage Project</span>
+    <button
+      mat-icon-button
+      class="manage-project__toolbar__back-button"
+      type="button"
+      data-testid="back-button"
+      (click)="goBack()"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="manage-project__toolbar__title">Propósitos</span>
 
     <span class="spacer"></span>
 

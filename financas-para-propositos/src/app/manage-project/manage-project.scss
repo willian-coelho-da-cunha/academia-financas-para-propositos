@@ -16,6 +16,11 @@
   color: var(--mat-sys-on-primary);
   box-shadow: 0 2px 4px var(--mat-sys-shadow);
 
+  &__back-button {
+    background-color: var(--mat-sys-inverse-primary);
+    margin-right: 0.5rem;
+  }
+
   &__button {
     margin-left: 0.5rem;
   }

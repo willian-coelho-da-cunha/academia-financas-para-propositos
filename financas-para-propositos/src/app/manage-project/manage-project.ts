@@ -103,4 +103,8 @@ export class ManageProject implements OnInit {
   goToAnalytics(): void {
     this.router.navigate(['/analytics-dashboards']);
   }
+
+  goBack(): void {
+    this.router.navigate(['/get-started']);
+  }
 }
