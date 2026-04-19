@@ -1,25 +1,18 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
-
-interface FinancialGoal {
-  id: string;
-  name: string;
-  order: number;
-  description: string;
-  status: string;
-  updatedAt: string;
-  releasedAt: string;
-}
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { FinancialPurpose as FinancialPurposeInterface } from '../domain/financial-purpose';
+import { FinancialPurposesRepository } from '../repositories/financial-purposes-repository';
 
 @Component({
   selector: 'app-financial-purpose',
@@ -38,40 +31,47 @@ interface FinancialGoal {
   templateUrl: './financial-purpose.html',
   styleUrl: './financial-purpose.scss',
 })
-export class FinancialPurpose implements OnInit {
-  private readonly fb = inject(FormBuilder);
+export class FinancialPurpose implements OnInit, OnDestroy {
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
+  private readonly formBuilder = inject(FormBuilder);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly financialPurposesRepository = inject(FinancialPurposesRepository);
 
-  financialForm: FormGroup;
+  private readonly end: Subject<void> = new Subject<void>();
+
+  readonly financialForm: FormGroup = this.formBuilder.group({
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+    order: ['', [Validators.required, Validators.min(1), Validators.max(1000)]],
+    description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
+    status: ['Ativo', Validators.required],
+    updatedAt: [new Date(), Validators.required],
+    releasedAt: ['', Validators.required],
+    createdAt: [''],
+  });
+
   isEditMode = false;
   goalId: string | null = null;
-  statusOptions = ['Active', 'Inactive', 'Completed', 'On Hold'];
+  statusOptions = ['Ativo', 'Inativo', 'Concluído', 'Em Espera'];
 
-  constructor() {
-    this.financialForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      order: ['', [Validators.required, Validators.min(1), Validators.max(1000)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
-      status: ['Active', Validators.required],
-      updatedAt: [new Date(), Validators.required],
-      releasedAt: ['', Validators.required],
+  ngOnInit(): void {
+    this.activatedRoute.params.pipe(takeUntil(this.end)).subscribe({
+      next: (params: Params): void => {
+        if (params['goal']) {
+          this.goalId = params['goal'];
+          this.isEditMode = this.goalId !== 'new';
+          this.loadGoalData();
+        }
+      },
     });
   }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if (params['goal']) {
-        this.goalId = params['goal'];
-        this.isEditMode = true;
-        this.loadGoalData();
-      }
-    });
+  ngOnDestroy(): void {
+    this.end.next();
+    this.end.complete();
   }
 
   private loadGoalData(): void {
-    const data = this.getFinancialGoalsFromStorage();
-    const goal = data.find((g: FinancialGoal) => g.id === this.goalId);
+    const goal: FinancialPurposeInterface | undefined = this.financialPurposesRepository.get(this.goalId!);
 
     if (goal) {
       this.financialForm.patchValue({
@@ -81,46 +81,31 @@ export class FinancialPurpose implements OnInit {
         status: goal.status,
         updatedAt: new Date(goal.updatedAt),
         releasedAt: new Date(goal.releasedAt),
+        createdAt: new Date(goal.createdAt),
       });
     }
   }
 
-  private getFinancialGoalsFromStorage(): FinancialGoal[] {
-    try {
-      const data = localStorage.getItem('financialGoals');
-      return data ? JSON.parse(data) : [];
-    } catch (error) {
-      console.error('Error parsing localStorage data:', error);
-      return [];
-    }
-  }
-
-  private saveFinancialGoalsToStorage(goals: FinancialGoal[]): void {
-    localStorage.setItem('financialGoals', JSON.stringify(goals));
-  }
-
   onSubmit(): void {
     if (this.financialForm.valid) {
-      const goals = this.getFinancialGoalsFromStorage();
       const formValue = this.financialForm.value;
 
       if (this.isEditMode && this.goalId) {
         // Update existing goal
-        const index = goals.findIndex((g: FinancialGoal) => g.id === this.goalId);
-        if (index > -1) {
-          goals[index] = {
-            id: this.goalId,
-            name: formValue.name,
-            order: formValue.order,
-            description: formValue.description,
-            status: formValue.status,
-            updatedAt: formValue.updatedAt instanceof Date ? formValue.updatedAt.toISOString() : formValue.updatedAt,
-            releasedAt: formValue.releasedAt instanceof Date ? formValue.releasedAt.toISOString() : formValue.releasedAt,
-          };
-        }
+        this.financialPurposesRepository.put(this.goalId, {
+          id: this.goalId,
+          name: formValue.name,
+          order: formValue.order,
+          description: formValue.description,
+          status: formValue.status,
+          updatedAt: formValue.updatedAt instanceof Date ? formValue.updatedAt.toISOString() : formValue.updatedAt,
+          releasedAt: formValue.releasedAt instanceof Date ? formValue.releasedAt.toISOString() : formValue.releasedAt,
+          createdAt: formValue.createdAt instanceof Date ? formValue.createdAt.toISOString() : formValue.createdAt,
+          deletedAt: '',
+        });
       } else {
         // Create new goal
-        const newGoal: FinancialGoal = {
+        const newGoal: FinancialPurposeInterface = {
           id: Date.now().toString(),
           name: formValue.name,
           order: formValue.order,
@@ -128,11 +113,11 @@ export class FinancialPurpose implements OnInit {
           status: formValue.status,
           updatedAt: formValue.updatedAt instanceof Date ? formValue.updatedAt.toISOString() : formValue.updatedAt,
           releasedAt: formValue.releasedAt instanceof Date ? formValue.releasedAt.toISOString() : formValue.releasedAt,
+          createdAt: new Date().toISOString(),
+          deletedAt: '',
         };
-        goals.push(newGoal);
+        this.financialPurposesRepository.post(newGoal);
       }
-
-      this.saveFinancialGoalsToStorage(goals);
       this.router.navigate(['/manage-project']);
     }
   }

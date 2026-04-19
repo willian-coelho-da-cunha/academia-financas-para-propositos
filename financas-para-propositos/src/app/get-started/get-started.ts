@@ -4,6 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
+import { FinancialPurposesRepository } from '../repositories/financial-purposes-repository';
 
 @Component({
   selector: 'app-get-started',
@@ -14,6 +16,7 @@ import { Router } from '@angular/router';
 export class GetStarted {
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
+  private readonly financialPurposesRepository = inject(FinancialPurposesRepository);
 
   private file: File | null = null;
 
@@ -38,30 +41,19 @@ export class GetStarted {
 
   onSubmit(): void {
     if (this.uploadForm.valid && this.enableSubmit && this.file) {
-      const reader: FileReader = new FileReader();
-
-      reader.onload = ($event: ProgressEvent<FileReader>): void => {
-        if ($event.target) {
-          const result: ArrayBuffer | string | null = $event.target.result;
-
-          if (result instanceof ArrayBuffer) {
-            const decoder: TextDecoder = new TextDecoder('utf-8');
-            const content: string = decoder.decode(result, { stream: true });
-            localStorage.setItem('projectDataStr', content);
+      this.financialPurposesRepository
+        .uploadFromFile(this.file)
+        .pipe(take(1))
+        .subscribe({
+          next: (): void => {
             this.router.navigate(['/manage-project']);
-          } else if (typeof result === 'string') {
-            window.alert('Houve um erro inesperado ao ler o arquivo. Conteúdo do arquivo: ' + result);
-          } else {
-            window.alert('Houve um erro inesperado ao ler o arquivo. Conteúdo do arquivo: ' + result);
-          }
-        }
-      };
-      reader.readAsArrayBuffer(this.file);
+          },
+        });
     }
   }
 
   startFromScratch(): void {
-    localStorage.removeItem('projectDataStr');
+    this.financialPurposesRepository.deleteAll();
     this.router.navigate(['/manage-project']);
   }
 }

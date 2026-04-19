@@ -14,15 +14,24 @@
       </mat-card-header>
 
       <mat-card-content class="financial-purpose__card__content">
-        <form [formGroup]="financialForm" (ngSubmit)="onSubmit()" class="financial-purpose__form">
+        <form
+          [formGroup]="financialForm"
+          (ngSubmit)="onSubmit()"
+          class="financial-purpose__form"
+        >
           <div class="financial-purpose__form__row">
-            <mat-form-field appearance="outline" class="financial-purpose__form__field">
+            <mat-form-field
+              appearance="outline"
+              class="financial-purpose__form__field"
+            >
               <mat-label>Goal Name</mat-label>
-              <input matInput formControlName="name" placeholder="e.g., Emergency Fund" />
+              <input
+                matInput
+                formControlName="name"
+                placeholder="e.g., Emergency Fund"
+              />
               <mat-icon matPrefix>label</mat-icon>
-              <mat-error *ngIf="financialForm.get('name')?.hasError('required')">
-                Name is required
-              </mat-error>
+              <mat-error *ngIf="financialForm.get('name')?.hasError('required')"> Name is required </mat-error>
               <mat-error *ngIf="financialForm.get('name')?.hasError('minlength')">
                 Name must be at least 3 characters
               </mat-error>
@@ -31,22 +40,38 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="financial-purpose__form__field">
+            <mat-form-field
+              appearance="outline"
+              class="financial-purpose__form__field"
+            >
               <mat-label>Priority Order</mat-label>
-              <input matInput type="number" formControlName="order" placeholder="e.g., 1" />
+              <input
+                matInput
+                type="number"
+                formControlName="order"
+                placeholder="e.g., 1"
+              />
               <mat-icon matPrefix>sort</mat-icon>
-              <mat-error *ngIf="financialForm.get('order')?.hasError('required')">
-                Order is required
-              </mat-error>
-              <mat-error *ngIf="financialForm.get('order')?.hasError('min') || financialForm.get('order')?.hasError('max')">
+              <mat-error *ngIf="financialForm.get('order')?.hasError('required')"> Order is required </mat-error>
+              <mat-error
+                *ngIf="financialForm.get('order')?.hasError('min') || financialForm.get('order')?.hasError('max')"
+              >
                 Order must be between 1 and 1000
               </mat-error>
             </mat-form-field>
           </div>
 
-          <mat-form-field appearance="outline" class="financial-purpose__form__field--full">
+          <mat-form-field
+            appearance="outline"
+            class="financial-purpose__form__field--full"
+          >
             <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description" placeholder="Enter a detailed description of your financial goal" rows="4"></textarea>
+            <textarea
+              matInput
+              formControlName="description"
+              placeholder="Enter a detailed description of your financial goal"
+              rows="4"
+            ></textarea>
             <mat-icon matPrefix>description</mat-icon>
             <mat-error *ngIf="financialForm.get('description')?.hasError('required')">
               Description is required
@@ -60,23 +85,38 @@
           </mat-form-field>
 
           <div class="financial-purpose__form__row">
-            <mat-form-field appearance="outline" class="financial-purpose__form__field">
+            <mat-form-field
+              appearance="outline"
+              class="financial-purpose__form__field"
+            >
               <mat-label>Status</mat-label>
               <mat-select formControlName="status">
-                <mat-option *ngFor="let option of statusOptions" [value]="option">
+                <mat-option
+                  *ngFor="let option of statusOptions"
+                  [value]="option"
+                >
                   {{ option }}
                 </mat-option>
               </mat-select>
               <mat-icon matPrefix>info</mat-icon>
-              <mat-error *ngIf="financialForm.get('status')?.hasError('required')">
-                Status is required
-              </mat-error>
+              <mat-error *ngIf="financialForm.get('status')?.hasError('required')"> Status is required </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="financial-purpose__form__field">
+            <mat-form-field
+              appearance="outline"
+              class="financial-purpose__form__field"
+            >
               <mat-label>Last Updated</mat-label>
-              <input matInput [matDatepicker]="updatedPicker" formControlName="updatedAt" readonly />
-              <mat-datepicker-toggle matIconSuffix [for]="updatedPicker"></mat-datepicker-toggle>
+              <input
+                matInput
+                [matDatepicker]="updatedPicker"
+                formControlName="updatedAt"
+                readonly
+              />
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="updatedPicker"
+              ></mat-datepicker-toggle>
               <mat-datepicker #updatedPicker></mat-datepicker>
               <mat-error *ngIf="financialForm.get('updatedAt')?.hasError('required')">
                 Updated date is required
@@ -84,10 +124,20 @@
             </mat-form-field>
           </div>
 
-          <mat-form-field appearance="outline" class="financial-purpose__form__field--full">
+          <mat-form-field
+            appearance="outline"
+            class="financial-purpose__form__field--full"
+          >
             <mat-label>Released Date</mat-label>
-            <input matInput [matDatepicker]="releasedPicker" formControlName="releasedAt" />
-            <mat-datepicker-toggle matIconSuffix [for]="releasedPicker"></mat-datepicker-toggle>
+            <input
+              matInput
+              [matDatepicker]="releasedPicker"
+              formControlName="releasedAt"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="releasedPicker"
+            ></mat-datepicker-toggle>
             <mat-datepicker #releasedPicker></mat-datepicker>
             <mat-error *ngIf="financialForm.get('releasedAt')?.hasError('required')">
               Released date is required
@@ -95,11 +145,20 @@
           </mat-form-field>
 
           <div class="financial-purpose__form__actions">
-            <button mat-raised-button color="primary" type="submit" [disabled]="!financialForm.valid">
+            <button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              [disabled]="!financialForm.valid"
+            >
               <mat-icon>{{ isEditMode ? 'save' : 'check_circle' }}</mat-icon>
               {{ isEditMode ? 'Update Goal' : 'Create Goal' }}
             </button>
-            <button mat-stroked-button type="button" (click)="cancel()">
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="cancel()"
+            >
               <mat-icon>close</mat-icon>
               Cancel
             </button>
