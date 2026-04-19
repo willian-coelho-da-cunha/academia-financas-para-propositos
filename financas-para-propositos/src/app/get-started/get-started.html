@@ -27,6 +27,7 @@
             type="file"
             accept=".txt"
             formControlName="file"
+            data-testid="file-input"
             (change)="onFileChange($event)"
           />
           <mat-icon class="get-started__card__content__form__file-input-container__file-icon">attach_file</mat-icon>
@@ -36,8 +37,9 @@
           mat-raised-button
           class="get-started__card__content__form__submit-button"
           type="submit"
+          data-testid="submit-button"
           [color]="'primary'"
-          [disabled]="!uploadForm.valid"
+          [disabled]="!uploadForm.valid && !enableSubmit"
         >
           <mat-icon>upload</mat-icon>
           Continuar
@@ -63,6 +65,7 @@
           mat-raised-button
           class="get-started__card__content__options__start-from-scratch-button"
           type="button"
+          data-testid="start-from-scratch-button"
           [color]="'primary'"
           (click)="startFromScratch()"
         >

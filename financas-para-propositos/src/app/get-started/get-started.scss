@@ -75,7 +75,9 @@
   border-radius: 10px;
   padding: 1rem 1rem 1rem 0.75rem;
   background-color: var(--mat-sys-surface-container-highest);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .get-started__card__content__form__file-input-container:focus-within {
