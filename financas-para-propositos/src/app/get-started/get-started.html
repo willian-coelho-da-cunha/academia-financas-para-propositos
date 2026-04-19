@@ -1,4 +1,22 @@
 <main class="get-started">
+  <mat-toolbar
+    class="get-started__toolbar"
+    [color]="'primary'"
+  >
+    <button
+      mat-icon-button
+      class="get-started__toolbar__back-button"
+      type="button"
+      data-testid="back-button"
+      (click)="goBack()"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="get-started__toolbar__title">Começar</span>
+
+    <span class="spacer"></span>
+  </mat-toolbar>
+
   <mat-card class="get-started__card get-started__card--upload">
     <mat-card-header class="get-started__card__header">
       <mat-icon
