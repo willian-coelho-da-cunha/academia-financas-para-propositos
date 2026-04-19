@@ -24,10 +24,6 @@ import { Router } from '@angular/router';
 export class GiveWelcome {
   private readonly router = inject(Router);
 
-  onLearnMore(): void {
-    this.router.navigate(['/learn-more']);
-  }
-
   onGetStarted(): void {
     this.router.navigate(['/get-started']);
   }

@@ -3,13 +3,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { FinancialPurposesRepository } from '../repositories/financial-purposes-repository';
 
 @Component({
   selector: 'app-get-started',
-  imports: [ReactiveFormsModule, MatButtonModule, MatCardModule, MatIconModule],
+  imports: [ReactiveFormsModule, MatButtonModule, MatCardModule, MatIconModule, MatToolbarModule],
   templateUrl: './get-started.html',
   styleUrl: './get-started.scss',
 })
@@ -50,6 +51,10 @@ export class GetStarted {
           },
         });
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/welcome']);
   }
 
   startFromScratch(): void {

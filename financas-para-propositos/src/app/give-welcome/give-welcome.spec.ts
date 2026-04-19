@@ -22,17 +22,9 @@ describe(GiveWelcome.name, () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate to learn-more page on Learn More button click.', () => {
-    const router = TestBed.inject(Router);
-    vi.spyOn(router, 'navigate').mockImplementation(() => Promise.resolve(true));
-    fixture.debugElement.query(By.css('[data-testid="learn-more-button"]')).nativeElement.click();
-    fixture.detectChanges();
-    expect(router.navigate).toHaveBeenCalledExactlyOnceWith(['/learn-more']);
-  });
-
   it('should navigate to get-started page on Get Started button click.', () => {
     const router = TestBed.inject(Router);
-    vi.spyOn(router, 'navigate').mockImplementation(() => Promise.resolve(true));
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
     fixture.debugElement.query(By.css('[data-testid="get-started-button"]')).nativeElement.click();
     fixture.detectChanges();
     expect(router.navigate).toHaveBeenCalledExactlyOnceWith(['/get-started']);
