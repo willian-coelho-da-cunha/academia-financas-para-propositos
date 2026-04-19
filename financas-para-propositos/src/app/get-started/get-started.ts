@@ -49,4 +49,9 @@ export class GetStarted {
       reader.readAsText(file);
     }
   }
+
+  startFromScratch(): void {
+    console.log('Starting from scratch');
+    // Here you can implement the logic to start a new project from scratch
+  }
 }

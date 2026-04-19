@@ -1,33 +1,75 @@
-<div class="get-started">
-  <mat-card class="get-started__card">
-    <mat-card-header class="get-started__header">
-      <mat-card-title class="get-started__title">Get Started</mat-card-title>
-      <mat-card-subtitle class="get-started__subtitle">Upload your .txt file to begin</mat-card-subtitle>
+<main class="get-started">
+  <mat-card class="get-started__card get-started__card--upload">
+    <mat-card-header class="get-started__card__header">
+      <mat-icon
+        mat-card-avatar
+        class="get-started__card__header__avatar"
+        >play_arrow</mat-icon
+      >
+      <mat-card-title class="get-started__card__header__title">Continue de onde você parou</mat-card-title>
+      <mat-card-subtitle class="get-started__card__header__subtitle"
+        >Informe seu arquivo .txt para continuar</mat-card-subtitle
+      >
     </mat-card-header>
-    <mat-card-content class="get-started__content">
-      <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="get-started__form">
-        <div class="get-started__file-input-container">
-          <label class="get-started__file-label">Select a .txt file</label>
+
+    <mat-card-content class="get-started__card__content">
+      <form
+        class="get-started__card__content__form"
+        [formGroup]="uploadForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="get-started__card__content__form__file-input-container">
+          <label class="get-started__card__content__form__file-input-container__file-label"
+            >Selecione um arquivo .txt</label
+          >
           <input
+            class="get-started__card__content__form__file-input-container__file-input"
             type="file"
             accept=".txt"
-            (change)="onFileChange($event)"
             formControlName="file"
-            class="get-started__file-input"
+            (change)="onFileChange($event)"
           />
-          <mat-icon class="get-started__file-icon">attach_file</mat-icon>
+          <mat-icon class="get-started__card__content__form__file-input-container__file-icon">attach_file</mat-icon>
         </div>
+
         <button
           mat-raised-button
-          color="primary"
+          class="get-started__card__content__form__submit-button"
           type="submit"
+          [color]="'primary'"
           [disabled]="!uploadForm.valid"
-          class="get-started__submit-button"
         >
           <mat-icon>upload</mat-icon>
-          Submit
+          Continuar
         </button>
       </form>
     </mat-card-content>
   </mat-card>
-</div>
+
+  <mat-card class="get-started__card get-started__card--start-from-scratch">
+    <mat-card-header class="get-started__card__header">
+      <mat-icon
+        mat-card-avatar
+        class="get-started__card__header__avatar"
+        >new_releases</mat-icon
+      >
+      <mat-card-title class="get-started__card__header__title">Começar do zero</mat-card-title>
+      <mat-card-subtitle class="get-started__card__header__subtitle">Inicie um novo projeto do zero</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="get-started__card__content">
+      <div class="get-started__card__content__options">
+        <button
+          mat-raised-button
+          class="get-started__card__content__options__start-from-scratch-button"
+          type="button"
+          [color]="'primary'"
+          (click)="startFromScratch()"
+        >
+          <mat-icon>upload</mat-icon>
+          Começar do zero
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</main>
