@@ -2,7 +2,9 @@ import { DOCUMENT } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { ManageProject, ProjectItem } from './manage-project';
+import { FinancialPurpose } from '../domain/financial-purpose';
+import { FinancialPurposesRepository } from '../repositories/financial-purposes-repository';
+import { ManageProject } from './manage-project';
 
 describe(ManageProject.name, () => {
   let component: ManageProject;
@@ -13,28 +15,18 @@ describe(ManageProject.name, () => {
       imports: [ManageProject],
     }).compileComponents();
 
-    localStorage.setItem(
-      'projectDataStr',
-      [
-        {
-          id: '1',
-          name: 'Project 1',
-          order: 1,
-          description: 'Description 1',
-          status: 'active',
-          createdAt: '2024-01-01T00:00:00Z',
-          updatedAt: '2024-01-02T00:00:00Z',
-          deletedAt: '',
-          releasedAt: '2024-01-03T00:00:00Z',
-        },
-      ]
-        .map((item: ProjectItem): string =>
-          Object.entries(item)
-            .map(([key, value]): string => `${key}: ${value}`)
-            .join(', '),
-        )
-        .join('\n'),
-    );
+    const financialPurposesRepository = TestBed.inject(FinancialPurposesRepository);
+    financialPurposesRepository.post({
+      id: '1',
+      name: 'Project 1',
+      order: 1,
+      description: 'Description 1',
+      status: 'active',
+      createdAt: '2024-01-01T00:00:00Z',
+      updatedAt: '2024-01-02T00:00:00Z',
+      deletedAt: '',
+      releasedAt: '2024-01-03T00:00:00Z',
+    });
 
     fixture = TestBed.createComponent(ManageProject);
     component = fixture.componentInstance;
@@ -81,50 +73,34 @@ describe(ManageProject.name, () => {
   });
 
   it('should delete item correctly.', () => {
-    const itemToDelete: ProjectItem = component.paginatedData[0];
+    const itemToDelete: FinancialPurpose = component.paginatedData[0];
     vi.spyOn(window, 'confirm').mockReturnValue(true);
     component.delete(itemToDelete);
-    expect(
-      component['trueDataSource'].find((item: ProjectItem) => item.id === itemToDelete.id)?.deletedAt,
-    ).toBeTruthy();
+    expect(component['trueDataSource'].find((item: FinancialPurpose) => item.id === itemToDelete.id)).toBeUndefined();
   });
 
   it('should not delete item if confirmation is cancelled.', () => {
-    const itemToDelete: ProjectItem = component.paginatedData[0];
+    const itemToDelete: FinancialPurpose = component.paginatedData[0];
     vi.spyOn(window, 'confirm').mockReturnValue(false);
     component.delete(itemToDelete);
-    expect(component['trueDataSource'].find((item: ProjectItem) => item.id === itemToDelete.id)?.deletedAt).toBe('');
-  });
-
-  it('should alert if item to delete is not found.', () => {
-    vi.spyOn(window, 'alert').mockImplementation(() => {});
-    component.delete({
-      id: 'non-existent',
-      name: '',
-      order: 0,
-      description: '',
-      status: '',
-      createdAt: '',
-      updatedAt: '',
-      deletedAt: '',
-      releasedAt: '',
-    });
-    expect(window.alert).toHaveBeenCalledWith('Item não encontrado para exclusão.');
+    expect(
+      component['trueDataSource'].find((item: FinancialPurpose) => item.id === itemToDelete.id),
+    ).not.toBeUndefined();
   });
 
   it('should navigate to add page on add.', () => {
     const router = TestBed.inject(Router);
     const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
     component.add();
-    expect(navigateSpy).toHaveBeenCalledWith(['/financial-goal']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/financial-goal', 'new']);
   });
 
   it('should navigate to edit page on edit.', () => {
     const router = TestBed.inject(Router);
     const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
-    const itemToEdit: ProjectItem = component.paginatedData[0];
+    const itemToEdit: FinancialPurpose = component.paginatedData[0];
     component.edit(itemToEdit);
-    expect(navigateSpy).toHaveBeenCalledWith(['/financial-goal'], { queryParams: { goal: itemToEdit.id } });
+    expect(navigateSpy).toHaveBeenCalledWith(['/financial-goal', itemToEdit.id]);
   });
 
   it('should download data as text file.', () => {

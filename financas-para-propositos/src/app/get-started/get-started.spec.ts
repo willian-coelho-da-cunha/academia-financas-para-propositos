@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { FinancialPurposesRepository } from '../repositories/financial-purposes-repository';
 import { GetStarted } from './get-started';
 
 describe(GetStarted.name, () => {
@@ -110,11 +111,12 @@ describe(GetStarted.name, () => {
     expect(router.navigate).toHaveBeenCalledWith(['/manage-project']);
   });
 
-  it('should remove projectDataStr from localStorage when start from scratch button is clicked.', async () => {
+  it('should delete all data from localStorage when start from scratch button is clicked.', async () => {
     const router = TestBed.inject(Router);
-    vi.spyOn(router, 'navigate').mockImplementation(() => Promise.resolve(true));
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
-    localStorage.setItem('projectDataStr', 'test data');
+    const financialPurposesRepository = TestBed.inject(FinancialPurposesRepository);
+    const deleteAllSpy = vi.spyOn(financialPurposesRepository, 'deleteAll').mockResolvedValue();
 
     const startFromScratchButton: DebugElement = fixture.debugElement.query(
       By.css('[data-testid="start-from-scratch-button"]'),
@@ -123,6 +125,6 @@ describe(GetStarted.name, () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(localStorage.getItem('projectDataStr')).toBeNull();
+    expect(deleteAllSpy).toHaveBeenCalled();
   });
 });

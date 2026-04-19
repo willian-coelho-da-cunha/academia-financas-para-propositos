@@ -7,19 +7,8 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
-
-export interface ProjectItem {
-  id: string;
-  name: string;
-  order: number;
-  description: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
-  releasedAt: string;
-  [key: string]: string | number;
-}
+import { FinancialPurpose } from '../domain/financial-purpose';
+import { FinancialPurposesRepository } from '../repositories/financial-purposes-repository';
 
 @Component({
   selector: 'app-manage-project',
@@ -38,8 +27,9 @@ export interface ProjectItem {
 export class ManageProject implements OnInit {
   private readonly router = inject(Router);
   private readonly ngDocument = inject(DOCUMENT);
+  private readonly financialPurposesRepository = inject(FinancialPurposesRepository);
 
-  private trueDataSource: ProjectItem[] = [];
+  private trueDataSource: FinancialPurpose[] = [];
 
   displayedColumns: string[] = ['order', 'name', 'description', 'status', 'releasedAt', 'actions'];
   pageSizeOptions = [50, 100, 150];
@@ -47,11 +37,11 @@ export class ManageProject implements OnInit {
   pageIndex = 0;
   totalItems = this.dataSource.length;
 
-  private get dataSource(): ProjectItem[] {
-    return this.trueDataSource.filter((item: ProjectItem) => !item.deletedAt);
+  private get dataSource(): FinancialPurpose[] {
+    return this.trueDataSource.filter((item: FinancialPurpose) => !item.deletedAt);
   }
 
-  get paginatedData(): ProjectItem[] {
+  get paginatedData(): FinancialPurpose[] {
     const start = this.pageIndex * this.pageSize;
     return this.dataSource.slice(start, start + this.pageSize);
   }
@@ -61,7 +51,8 @@ export class ManageProject implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getDataFromLocalStorage();
+    this.trueDataSource = this.financialPurposesRepository.getAll();
+    this.totalItems = this.dataSource.length;
   }
 
   onPageChange($event: PageEvent): void {
@@ -70,34 +61,28 @@ export class ManageProject implements OnInit {
   }
 
   add(): void {
-    this.router.navigate(['/financial-goal']);
+    this.router.navigate(['/financial-goal', 'new']);
   }
 
-  edit(item: ProjectItem): void {
-    this.router.navigate(['/financial-goal'], { queryParams: { goal: item.id } });
+  edit(item: FinancialPurpose): void {
+    this.router.navigate(['/financial-goal', item.id]);
   }
 
-  delete(item: ProjectItem): void {
-    const index: number = this.dataSource.findIndex((element: ProjectItem) => element.id === item.id);
-
-    if (index > -1) {
-      const confirmDelete: boolean = window.confirm(`Você tem certeza que deseja excluir "${item.name}"?`);
-
-      if (confirmDelete) {
-        this.dataSource[index].deletedAt = new Date().toISOString();
-        this.totalItems = this.dataSource.length;
-        if (this.paginatedData.length === 0 && this.pageIndex > 0) {
-          this.pageIndex--;
-        }
+  delete(item: FinancialPurpose): void {
+    const confirmDelete: boolean = window.confirm(`Você tem certeza que deseja excluir "${item.name}"?`);
+    if (confirmDelete) {
+      this.financialPurposesRepository.delete(item.id);
+      this.trueDataSource = this.financialPurposesRepository.getAll();
+      this.totalItems = this.dataSource.length;
+      if (this.paginatedData.length === 0 && this.pageIndex > 0) {
+        this.pageIndex--;
       }
-    } else {
-      window.alert('Item não encontrado para exclusão.');
     }
   }
 
   downloadData(): void {
     const dataText: string = this.dataSource
-      .map((item: ProjectItem): string =>
+      .map((item: FinancialPurpose): string =>
         Object.entries(item)
           .map(([key, value]): string => `${key}: ${value}`)
           .join(', '),
@@ -111,33 +96,5 @@ export class ManageProject implements OnInit {
     anchor.download = 'project-data.txt';
     anchor.click();
     window.URL.revokeObjectURL(url);
-  }
-
-  private getDataFromLocalStorage(): void {
-    const dataStr: string | null = localStorage.getItem('projectDataStr');
-
-    if (dataStr) {
-      try {
-        const parsedData: ProjectItem[] = dataStr.split('\n').map((line: string): ProjectItem => {
-          const item: Partial<ProjectItem> = {};
-          line.split(', ').forEach((pair: string): void => {
-            const [key, value] = pair.split(': ');
-            if (key === 'order') {
-              item[key] = Number(value);
-            } else {
-              item[key] = value;
-            }
-          });
-          return item as ProjectItem;
-        });
-
-        this.trueDataSource = parsedData;
-        this.totalItems = this.dataSource.length;
-      } catch (error) {
-        window.alert(
-          'Houve um erro ao carregar os dados do projeto. O arquivo pode estar corrompido ou em formato inválido.',
-        );
-      }
-    }
   }
 }
