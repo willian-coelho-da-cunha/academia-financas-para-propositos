@@ -1,0 +1,77 @@
+:host {
+  display: block;
+  height: 100vh;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+.manage-project {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.manage-project__toolbar {
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  box-shadow: 0 2px 4px var(--mat-sys-shadow);
+
+  &__button {
+    margin-left: 0.5rem;
+  }
+}
+
+.manage-project__toolbar__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.manage-project__card {
+  flex: 1;
+  margin: 1rem;
+  background-color: var(--mat-sys-surface-container);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px var(--mat-sys-shadow);
+  overflow: hidden;
+}
+
+.manage-project__card__content {
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.manage-project__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.manage-project__table th {
+  background-color: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--mat-sys-outline);
+}
+
+.manage-project__table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  color: var(--mat-sys-on-surface);
+}
+
+.manage-project__table tr:hover {
+  background-color: var(--mat-sys-surface-container-highest);
+}
+
+.manage-project__paginator {
+  margin-top: auto;
+  background-color: var(--mat-sys-surface-container-high);
+  border-top: 1px solid var(--mat-sys-outline);
+}
