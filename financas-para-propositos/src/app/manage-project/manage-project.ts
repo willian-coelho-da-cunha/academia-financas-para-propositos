@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component, DOCUMENT, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -20,6 +21,7 @@ import { FinancialPurposesRepository } from '../repositories/financial-purposes-
     MatCardModule,
     MatToolbarModule,
     DatePipe,
+    CurrencyPipe,
   ],
   templateUrl: './manage-project.html',
   styleUrl: './manage-project.scss',
@@ -31,7 +33,7 @@ export class ManageProject implements OnInit {
 
   private trueDataSource: FinancialPurpose[] = [];
 
-  displayedColumns: string[] = ['order', 'name', 'description', 'status', 'releasedAt', 'actions'];
+  displayedColumns: string[] = ['order', 'name', 'description', 'amount', 'status', 'releasedAt', 'actions'];
   pageSizeOptions = [50, 100, 150];
   pageSize = 50;
   pageIndex = 0;
@@ -96,5 +98,9 @@ export class ManageProject implements OnInit {
     anchor.download = 'project-data.txt';
     anchor.click();
     window.URL.revokeObjectURL(url);
+  }
+
+  goToAnalytics(): void {
+    this.router.navigate(['/analytics-dashboards']);
   }
 }
